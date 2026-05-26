@@ -1,43 +1,45 @@
 # updater-go
 
-Go updater plugin for Semantic Release.
+Updates a Go source file that stores the application version.
 
-Updates Go module metadata and versions during Semantic Release.
+This plugin is distributed as the standalone Go binary `semrel-plugin-updater-go`. Semrel executes the binary as a subprocess, provides plugin configuration through `SEMREL_PLUGIN_*` environment variables, provides release context through `SEMREL_*` environment variables, reads standard output, and treats exit code `0` as success and any non-zero exit code as failure. Install the binary in `~/.semrel/plugins/` or anywhere on your `$PATH`.
 
-## Documentation
+## Installation
 
-- Docs (coming soon): <https://github.com/SemRels/semrel/tree/main/docs/plugins/updater-go>
-- Template source: <https://github.com/SemRels/plugin-template>
+```bash
+go install github.com/SemRels/updater-go/cmd/plugin@latest
+```
 
-## Repository Layout
+## Configuration
 
-`	ext
-cmd/plugin/              Plugin entry point
-internal/plugin/         Business logic scaffold
-internal/grpc/           gRPC transport scaffold
-proto/v1                 Symlink to the SemRel protobuf contract
-.github/workflows/       CI, release, and security automation
-`
-
-## Development
-
-`ash
-go build ./cmd/plugin
-go test ./...
-`
-
-## Configuration Example
-
-`yaml
+```yaml
 plugins:
   - name: updater-go
-    type: updater
-    config:
-      go_mod_file: go.mod
-      version_package: internal/version
-      update_ldflags: true
-`
+    path: ~/.semrel/plugins/semrel-plugin-updater-go
+    env:
+      SEMREL_PLUGIN_FILE: "internal/version/version.go"
+      SEMREL_PLUGIN_VARIABLE: "Version"
+```
 
-## Status
+## `SEMREL_PLUGIN_*` variables
 
-This repository is bootstrapped from SemRels/plugin-template and is ready for implementation.
+| Name | Required | Description | Default |
+| --- | --- | --- | --- |
+| `SEMREL_PLUGIN_FILE` | Optional | Path to the Go source file containing the version variable. | version.go |
+| `SEMREL_PLUGIN_VARIABLE` | Optional | Go variable name to update. | Version |
+
+## `SEMREL_*` release context used
+
+| Variable | Description |
+| --- | --- |
+| `SEMREL_VERSION` | Resolved release version for the current run. |
+| `SEMREL_NEXT_VERSION` | Next version computed by semrel for the release. |
+| `SEMREL_DRY_RUN` | Whether semrel is running in dry-run mode. |
+
+## Example behavior
+
+The plugin rewrites the selected Go version variable with the next release version. In dry-run mode it reports the edit only.
+
+## License
+
+Apache-2.0
