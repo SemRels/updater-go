@@ -2,12 +2,30 @@
 
 Updates a Go source file that stores the application version.
 
-This plugin is distributed as the standalone Go binary `semrel-plugin-updater-go`. Semrel executes the binary as a subprocess, provides plugin configuration through `SEMREL_PLUGIN_*` environment variables, provides release context through `SEMREL_*` environment variables, reads standard output, and treats exit code `0` as success and any non-zero exit code as failure. Install the binary in `~/.semrel/plugins/` or anywhere on your `$PATH`.
+This plugin is distributed as the standalone Go binary `semrel-plugin-updater-go` and as a multi-platform Docker image on `ghcr.io`. Semrel executes the binary as a subprocess, provides plugin configuration through `SEMREL_PLUGIN_*` environment variables, provides release context through `SEMREL_*` environment variables, reads standard output, and treats exit code `0` as success and any non-zero exit code as failure. Install the binary in `~/.semrel/plugins/` or anywhere on your `$PATH`.
 
 ## Installation
 
+### Binary
+
 ```bash
 go install github.com/SemRels/updater-go/cmd/plugin@latest
+```
+
+### Docker
+
+Pre-built, multi-platform images (linux/amd64, linux/arm64) are published to the GitHub Container Registry on every release:
+
+```bash
+docker pull ghcr.io/semrels/updater-go:latest
+```
+
+Images are signed with [cosign](https://github.com/sigstore/cosign) and include a full SBOM attestation. Verify the signature:
+
+```bash
+cosign verify ghcr.io/semrels/updater-go:latest \
+  --certificate-identity-regexp 'https://github.com/SemRels/updater-go/.github/workflows/release.yml.*' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```
 
 ## Configuration
