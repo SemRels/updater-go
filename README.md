@@ -1,6 +1,6 @@
 # updater-go
 
-[![Latest Release](https://img.shields.io/github/v/release/SemRels/updater-go?label=version\&color=blue)](https://github.com/SemRels/updater-go/releases/latest)
+[![Latest Release](https://img.shields.io/github/v/release/SemRels/updater-go?label=version&color=blue)](https://github.com/SemRels/updater-go/releases/latest)
 
 Updates a Go source file that stores the application version.
 
