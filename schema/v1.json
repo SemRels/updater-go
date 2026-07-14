@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://registry.semrel.io/schemas/plugins/updater-go/v1.json",
+  "$id": "https://registry.semrel.io/schemas/plugins/go/v1.json",
   "title": "updater-go plugin configuration",
   "description": "Schema v1 for the updater-go semrel plugin. Configure via SEMREL_* environment variables.",
   "type": "object",
