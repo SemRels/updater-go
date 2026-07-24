@@ -14,7 +14,7 @@ func TestUpdaterUpdateGoFile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.RemoveAll(dir)
+	defer func() { _ = os.RemoveAll(dir) }()
 
 	file := filepath.Join(dir, "version.go")
 	original := "package version\n\nconst Version = \"1.2.3\"\n"
@@ -42,7 +42,7 @@ func TestUpdaterUpdatePlainVersionFile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.RemoveAll(dir)
+	defer func() { _ = os.RemoveAll(dir) }()
 
 	file := filepath.Join(dir, "version")
 	if err := os.WriteFile(file, []byte("1.2.3\n"), 0o644); err != nil {
@@ -78,7 +78,7 @@ func TestUpdaterVariableNotFound(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.RemoveAll(dir)
+	defer func() { _ = os.RemoveAll(dir) }()
 
 	file := filepath.Join(dir, "version.go")
 	if err := os.WriteFile(file, []byte("package version\n"), 0o644); err != nil {
