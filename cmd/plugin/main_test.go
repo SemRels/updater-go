@@ -15,7 +15,7 @@ func TestRunUpdatesFile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.RemoveAll(dir)
+	defer func() { _ = os.RemoveAll(dir) }()
 
 	file := filepath.Join(dir, "version.go")
 	if err := os.WriteFile(file, []byte("package version\nconst Version = \"1.2.3\"\n"), 0o644); err != nil {
